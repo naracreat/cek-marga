@@ -116,7 +116,7 @@
     }
 
     .main-name {
-      font-size: 30px;
+      font-size: 34px;
       font-weight: bold;
       margin: 0 0 8px;
       color: #f8fafc;
@@ -172,7 +172,7 @@
       }
 
       .main-name {
-        font-size: 24px;
+        font-size: 28px;
       }
     }
   </style>
@@ -181,9 +181,9 @@
   <div class="wrap">
     <div class="card">
       <div class="badge">CHINESE NAME MATCH</div>
-      <h1>Cek Nama China Kamu</h1>
+      <h1>Cek Marga China Kamu</h1>
       <p class="desc">
-        Masukkan nama kamu, lalu sistem akan memilih nama Tionghoa yang paling cocok berdasarkan bunyi, irama, karakter huruf, dan aura nama. Hasilnya dibuat dengan nuansa dramatis ala dunia donghua.
+        Masukkan nama kamu, lalu sistem akan memilih marga Tionghoa yang paling cocok berdasarkan bunyi, irama, karakter huruf, dan aura nama. Hasilnya dibuat dengan nuansa dramatis ala dunia donghua.
       </p>
 
       <div class="form">
@@ -218,7 +218,7 @@
       hasil.classList.remove("hidden");
       hasil.innerHTML = `
         <div class="small-label">Memproses</div>
-        <div class="main-name">Sedang mencari nama yang cocok...</div>
+        <div class="main-name">Sedang mencari marga yang cocok...</div>
         <div class="subline">Membaca bunyi, irama, dan aura namamu</div>
       `;
 
@@ -238,7 +238,7 @@
         const alternativesHtml = (data.alternatives || [])
           .map((item) => `
             <div class="alt-item">
-              <strong>${escapeHtml(item.full_name_pinyin)} (${escapeHtml(item.full_name_hanzi)})</strong><br>
+              <strong>${escapeHtml(item.surname_pinyin)} (${escapeHtml(item.surname_hanzi)})</strong><br>
               <span>${escapeHtml(item.vibe)}</span>
             </div>
           `)
@@ -246,8 +246,8 @@
 
         hasil.innerHTML = `
           <div class="small-label">Hasil untuk ${escapeHtml(data.query)}</div>
-          <div class="main-name">${escapeHtml(data.full_name_pinyin)} (${escapeHtml(data.full_name_hanzi)})</div>
-          <div class="subline">Marga: ${escapeHtml(data.surname_pinyin)} (${escapeHtml(data.surname_hanzi)}) • Vibe: ${escapeHtml(data.vibe)}</div>
+          <div class="main-name">${escapeHtml(data.surname_pinyin)} (${escapeHtml(data.surname_hanzi)})</div>
+          <div class="subline">Vibe: ${escapeHtml(data.vibe)}</div>
 
           <div class="section">
             <div class="small-label">Deskripsi</div>
@@ -260,7 +260,7 @@
           </div>
 
           <div class="section">
-            <div class="small-label">Alternatif nama lain</div>
+            <div class="small-label">Alternatif marga lain</div>
             <div class="alt-list">${alternativesHtml}</div>
           </div>
         `;
