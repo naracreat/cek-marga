@@ -3,80 +3,186 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cek Nama China</title>
+  <title>Cek Marga China Kamu</title>
   <style>
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --bg-1: #020617;
+      --bg-2: #0f172a;
+      --bg-3: #172554;
+      --line: rgba(255,255,255,0.12);
+      --soft: rgba(255,255,255,0.08);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --gold-1: #fbbf24;
+      --gold-2: #f59e0b;
+      --gold-3: #d97706;
+      --card: rgba(7, 17, 37, 0.82);
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,0.16), transparent 30%),
-        linear-gradient(180deg, #0f172a 0%, #111827 45%, #1f2937 100%);
-      color: #f8fafc;
+      color: var(--text);
       min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 22%),
+        radial-gradient(circle at 80% 20%, rgba(251, 191, 36, 0.10), transparent 18%),
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.16), transparent 18%),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-3) 100%);
+      overflow-x: hidden;
+    }
+
+    .glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 10%, rgba(255,255,255,0.05), transparent 18%),
+        radial-gradient(circle at 10% 90%, rgba(251, 191, 36, 0.06), transparent 16%),
+        radial-gradient(circle at 90% 75%, rgba(96, 165, 250, 0.08), transparent 18%);
+      z-index: 0;
     }
 
     .wrap {
+      position: relative;
+      z-index: 1;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 28px 18px 40px;
     }
 
     .card {
       width: 100%;
-      max-width: 760px;
-      background: rgba(15, 23, 42, 0.82);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 24px;
+      max-width: 780px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 30px;
       padding: 24px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.40);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(251, 191, 36, 0.06), transparent 20%, transparent 80%, rgba(96, 165, 250, 0.06));
+      pointer-events: none;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
     }
 
     .badge {
-      display: inline-block;
-      padding: 8px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
       font-size: 12px;
       border-radius: 999px;
-      background: rgba(251, 191, 36, 0.14);
+      background: rgba(251, 191, 36, 0.12);
       color: #fde68a;
-      margin-bottom: 14px;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.9px;
+      border: 1px solid rgba(251, 191, 36, 0.16);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #fbbf24;
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.8);
+    }
+
+    .ornament {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 2px;
     }
 
     h1 {
+      position: relative;
+      z-index: 1;
       margin: 0 0 12px;
-      font-size: 38px;
-      line-height: 1.1;
+      font-size: 42px;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
     }
 
     .desc {
-      margin: 0 0 20px;
-      color: #cbd5e1;
-      line-height: 1.7;
-      font-size: 16px;
+      position: relative;
+      z-index: 1;
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 17px;
+      max-width: 650px;
+    }
+
+    .chips {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #dbeafe;
+      font-size: 12px;
+    }
+
+    .form-shell {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 16px;
     }
 
     .form {
       display: flex;
       gap: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
 
     input {
       flex: 1;
-      padding: 16px 18px;
-      border-radius: 14px;
+      padding: 18px 18px;
+      border-radius: 16px;
       border: 1px solid rgba(255,255,255,0.14);
       background: rgba(255,255,255,0.08);
       color: white;
-      font-size: 16px;
+      font-size: 18px;
       outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus {
+      border-color: rgba(251, 191, 36, 0.45);
+      box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.10);
     }
 
     input::placeholder {
@@ -85,20 +191,35 @@
 
     button {
       border: 0;
-      border-radius: 14px;
-      padding: 16px 20px;
-      font-size: 16px;
-      font-weight: bold;
+      border-radius: 16px;
+      padding: 18px 22px;
+      font-size: 18px;
+      font-weight: 700;
       cursor: pointer;
-      background: linear-gradient(135deg, #f59e0b, #d97706);
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-2), var(--gold-3));
       color: white;
-      min-width: 130px;
+      min-width: 150px;
+      box-shadow: 0 12px 30px rgba(217, 119, 6, 0.30);
+      transition: transform 0.15s ease;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .form-note {
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 2px 2px 0;
     }
 
     .result {
+      position: relative;
+      z-index: 1;
       margin-top: 18px;
       padding: 20px;
-      border-radius: 18px;
+      border-radius: 22px;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.10);
     }
@@ -111,56 +232,104 @@
       color: #94a3b8;
       font-size: 13px;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 6px;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
     }
 
     .main-name {
-      font-size: 34px;
-      font-weight: bold;
+      font-size: 36px;
+      font-weight: 800;
       margin: 0 0 8px;
       color: #f8fafc;
+      line-height: 1.1;
     }
 
     .subline {
       color: #fcd34d;
       margin-bottom: 16px;
       font-size: 15px;
+      line-height: 1.6;
     }
 
     .section {
-      margin-top: 14px;
+      margin-top: 16px;
     }
 
     .section p {
       margin: 8px 0 0;
-      line-height: 1.8;
+      line-height: 1.85;
       color: #e5e7eb;
+      font-size: 15px;
     }
 
     .alt-list {
-      margin-top: 10px;
+      margin-top: 12px;
       display: grid;
       gap: 10px;
     }
 
     .alt-item {
-      padding: 12px 14px;
-      border-radius: 14px;
+      padding: 14px 15px;
+      border-radius: 16px;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.08);
     }
 
-    .note {
+    .alt-item strong {
+      display: inline-block;
+      margin-bottom: 4px;
+      font-size: 18px;
+    }
+
+    .alt-item span {
+      color: #d1d5db;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .footer-note {
+      position: relative;
+      z-index: 1;
       margin-top: 18px;
       font-size: 13px;
       color: #94a3b8;
-      line-height: 1.7;
+      line-height: 1.8;
+    }
+
+    .ad-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(255,255,255,0.10);
+    }
+
+    .ad-title {
+      color: #93c5fd;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
     }
 
     @media (max-width: 640px) {
+      .wrap {
+        padding-top: 22px;
+      }
+
+      .card {
+        padding: 20px;
+        border-radius: 26px;
+      }
+
       h1 {
-        font-size: 30px;
+        font-size: 32px;
+      }
+
+      .desc {
+        font-size: 16px;
       }
 
       .form {
@@ -174,26 +343,58 @@
       .main-name {
         font-size: 28px;
       }
+
+      .top-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="glow"></div>
+
   <div class="wrap">
     <div class="card">
-      <div class="badge">CHINESE NAME MATCH</div>
+      <div class="top-row">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          CHINESE NAME MATCH
+        </div>
+        <div class="ornament">SEKTE • LANGIT • TAKDIR</div>
+      </div>
+
       <h1>Cek Marga China Kamu</h1>
+
       <p class="desc">
-        Masukkan nama kamu, lalu sistem akan memilih marga Tionghoa yang paling cocok berdasarkan bunyi, irama, karakter huruf, dan aura nama. Hasilnya dibuat dengan nuansa dramatis ala dunia donghua.
+        Temukan marga Tionghoa yang terasa paling selaras dengan auramu — dingin, anggun, tajam, atau lahir untuk menembus langit.
       </p>
 
-      <div class="form">
-        <input id="namaInput" type="text" placeholder="Contoh: Yahya, Nabila, Kevin, Zulkifli" />
-        <button onclick="cek()">Cek</button>
+      <div class="chips">
+        <div class="chip">vibe donghua</div>
+        <div class="chip">aura kultivasi</div>
+        <div class="chip">marga paling cocok</div>
+        <div class="chip">alternatif pilihan</div>
+      </div>
+
+      <div class="form-shell">
+        <div class="form">
+          <input id="namaInput" type="text" placeholder="Masukan Nama" />
+          <button onclick="cek()">Cek</button>
+        </div>
+        <div class="form-note">
+          Cocok buat nama apa pun. Sistem akan memilih marga yang paling nyambung dari bunyi, ritme, dan nuansa namamu.
+        </div>
       </div>
 
       <div id="hasil" class="result hidden"></div>
 
-      <div class="note">
+      <div class="ad-box">
+        <div class="ad-title">sponsored</div>
+        <script>(function(s){s.dataset.zone='10109877',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+      </div>
+
+      <div class="footer-note">
         Hasil ini adalah rekomendasi kreatif berbasis bunyi, karakter, dan nuansa nama. Bukan data silsilah keluarga atau transliterasi resmi.
       </div>
     </div>
@@ -209,17 +410,17 @@
         hasil.classList.remove("hidden");
         hasil.innerHTML = `
           <div class="small-label">Input kosong</div>
-          <div class="main-name">Masukkan dulu namanya</div>
-          <div class="subline">Contoh: Yahya, Putri, Kevin, Haruto</div>
+          <div class="main-name">Masukan dulu namamu</div>
+          <div class="subline">Biarkan sistem memilih marga yang paling selaras dengan auramu.</div>
         `;
         return;
       }
 
       hasil.classList.remove("hidden");
       hasil.innerHTML = `
-        <div class="small-label">Memproses</div>
-        <div class="main-name">Sedang mencari marga yang cocok...</div>
-        <div class="subline">Membaca bunyi, irama, dan aura namamu</div>
+        <div class="small-label">Membaca aura</div>
+        <div class="main-name">Menelusuri marga yang paling cocok...</div>
+        <div class="subline">Mengukur bunyi, ritme, dan nuansa namamu di jalur kultivasi.</div>
       `;
 
       try {
@@ -229,34 +430,44 @@
         if (!data.found) {
           hasil.innerHTML = `
             <div class="small-label">Tidak ditemukan</div>
-            <div class="main-name">Belum bisa memproses nama ini</div>
-            <div class="subline">Coba nama lain</div>
+            <div class="main-name">Namamu belum bisa diproses</div>
+            <div class="subline">Coba lagi dengan nama lain.</div>
           `;
           return;
         }
 
-        const alternativesHtml = (data.alternatives || [])
-          .map((item) => `
+        const alternatives = Array.isArray(data.alternatives) ? data.alternatives : [];
+        const validAlternatives = alternatives.filter(
+          (item) => item && item.surname_pinyin && item.surname_hanzi
+        );
+
+        const alternativesHtml = validAlternatives.length
+          ? validAlternatives.map((item) => `
+              <div class="alt-item">
+                <strong>${escapeHtml(item.surname_pinyin)} (${escapeHtml(item.surname_hanzi)})</strong>
+                <span>${escapeHtml(item.vibe || "Marga alternatif dengan nuansa berbeda.")}</span>
+              </div>
+            `).join("")
+          : `
             <div class="alt-item">
-              <strong>${escapeHtml(item.surname_pinyin)} (${escapeHtml(item.surname_hanzi)})</strong><br>
-              <span>${escapeHtml(item.vibe)}</span>
+              <strong>Belum ada alternatif</strong>
+              <span>Sistem belum menemukan alternatif marga lain untuk hasil ini.</span>
             </div>
-          `)
-          .join("");
+          `;
 
         hasil.innerHTML = `
           <div class="small-label">Hasil untuk ${escapeHtml(data.query)}</div>
           <div class="main-name">${escapeHtml(data.surname_pinyin)} (${escapeHtml(data.surname_hanzi)})</div>
-          <div class="subline">Vibe: ${escapeHtml(data.vibe)}</div>
+          <div class="subline">Vibe: ${escapeHtml(data.vibe || "misterius, klasik, kuat")}</div>
 
           <div class="section">
             <div class="small-label">Deskripsi</div>
-            <p>${escapeHtml(data.description_long)}</p>
+            <p>${escapeHtml(data.description_long || "Marga ini membawa nuansa yang kuat, khas, dan cocok untuk nama dengan aura yang menonjol.")}</p>
           </div>
 
           <div class="section">
             <div class="small-label">Kesan aura</div>
-            <p>${escapeHtml(data.aura)}</p>
+            <p>${escapeHtml(data.aura || "Ada kesan takdir, ketenangan, dan tekanan halus yang membuat nama ini terasa menonjol.")}</p>
           </div>
 
           <div class="section">
@@ -267,8 +478,8 @@
       } catch (err) {
         hasil.innerHTML = `
           <div class="small-label">Error</div>
-          <div class="main-name">Gagal mengambil hasil</div>
-          <div class="subline">Coba lagi sebentar</div>
+          <div class="main-name">Gerbang langit sedang tertutup</div>
+          <div class="subline">Coba lagi sebentar.</div>
         `;
         console.error(err);
       }
