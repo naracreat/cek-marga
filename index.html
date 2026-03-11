@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cek Marga China</title>
+</head>
+
+<body>
+
+<h1>Cek Marga China</h1>
+
+<p>Masukkan nama keluarga kamu</p>
+
+<input id="namaInput" placeholder="contoh: Tan">
+
+<button onclick="cek()">Cek</button>
+
+<div id="hasil"></div>
+
+<script>
+
+async function cek(){
+
+let nama = document.getElementById("namaInput").value
+
+let res = await fetch("/api/cek-marga?nama=" + nama)
+
+let data = await res.json()
+
+if(data.found){
+
+document.getElementById("hasil").innerHTML =
+"Marga China: " + data.marga_hanzi + " " + data.marga_pinyin
+
+}else{
+
+document.getElementById("hasil").innerHTML =
+"Marga belum ditemukan"
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
