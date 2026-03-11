@@ -12,6 +12,17 @@ export async function onRequestGet(context) {
 
   const dataUrl = new URL("/data/names.json", request.url);
   const dataRes = await fetch(dataUrl.toString());
+
+  if (!dataRes.ok) {
+    return Response.json(
+      {
+        found: false,
+        error: "File data/names.json tidak ditemukan"
+      },
+      { status: 500 }
+    );
+  }
+
   const profiles = await dataRes.json();
 
   const analysis = analyzeName(rawNama);
@@ -23,6 +34,14 @@ export async function onRequestGet(context) {
     .sort((a, b) => b.score - a.score);
 
   const best = ranked[0];
+
+  if (!best) {
+    return Response.json(
+      { found: false, error: "Tidak ada profile nama" },
+      { status: 500 }
+    );
+  }
+
   const alternatives = ranked.slice(1, 3).map((item) => ({
     full_name_pinyin: item.full_name_pinyin,
     full_name_hanzi: item.full_name_hanzi,
@@ -165,4 +184,4 @@ function countVowels(value) {
 function estimateSyllables(value) {
   const match = value.match(/[aiueo]+/g);
   return match ? match.length : 1;
-}
+    }
