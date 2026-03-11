@@ -12,8 +12,11 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f6f7fb;
-      color: #111827;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.16), transparent 30%),
+        linear-gradient(180deg, #0f172a 0%, #111827 45%, #1f2937 100%);
+      color: #f8fafc;
+      min-height: 100vh;
     }
 
     .wrap {
@@ -21,89 +24,145 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 20px;
     }
 
     .card {
       width: 100%;
-      max-width: 680px;
-      background: white;
-      border-radius: 20px;
+      max-width: 760px;
+      background: rgba(15, 23, 42, 0.82);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
       padding: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      backdrop-filter: blur(10px);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 12px;
+      font-size: 12px;
+      border-radius: 999px;
+      background: rgba(251, 191, 36, 0.14);
+      color: #fde68a;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
     }
 
     h1 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 36px;
+      margin: 0 0 12px;
+      font-size: 38px;
+      line-height: 1.1;
     }
 
-    p {
-      color: #4b5563;
-      line-height: 1.5;
+    .desc {
+      margin: 0 0 20px;
+      color: #cbd5e1;
+      line-height: 1.7;
+      font-size: 16px;
     }
 
     .form {
       display: flex;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     input {
       flex: 1;
-      padding: 14px 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: white;
       font-size: 16px;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #94a3b8;
     }
 
     button {
-      padding: 14px 18px;
       border: 0;
-      border-radius: 12px;
-      background: #111827;
-      color: white;
+      border-radius: 14px;
+      padding: 16px 20px;
       font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      min-width: 130px;
     }
 
     .result {
-      margin-top: 20px;
-      padding: 18px;
-      border-radius: 16px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-    }
-
-    .result h2 {
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
-
-    .label {
-      font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 6px;
-    }
-
-    .big {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 12px;
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
     }
 
     .hidden {
       display: none;
     }
 
+    .small-label {
+      color: #94a3b8;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+
+    .main-name {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 0 0 8px;
+      color: #f8fafc;
+    }
+
+    .subline {
+      color: #fcd34d;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .section {
+      margin-top: 14px;
+    }
+
+    .section p {
+      margin: 8px 0 0;
+      line-height: 1.8;
+      color: #e5e7eb;
+    }
+
+    .alt-list {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .alt-item {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
     .note {
       margin-top: 18px;
       font-size: 13px;
-      color: #6b7280;
+      color: #94a3b8;
+      line-height: 1.7;
     }
 
     @media (max-width: 640px) {
+      h1 {
+        font-size: 30px;
+      }
+
       .form {
         flex-direction: column;
       }
@@ -112,8 +171,8 @@
         width: 100%;
       }
 
-      h1 {
-        font-size: 30px;
+      .main-name {
+        font-size: 24px;
       }
     }
   </style>
@@ -121,20 +180,21 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Cek Nama China</h1>
-      <p>
-        Masukkan nama kamu, lalu sistem akan mencocokkan nama Tionghoa yang paling pas berdasarkan bunyi dan nuansa nama.
+      <div class="badge">CHINESE NAME MATCH</div>
+      <h1>Cek Nama China Kamu</h1>
+      <p class="desc">
+        Masukkan nama kamu, lalu sistem akan memilih nama Tionghoa yang paling cocok berdasarkan bunyi, irama, karakter huruf, dan aura nama. Hasilnya dibuat dengan nuansa dramatis ala dunia donghua.
       </p>
 
       <div class="form">
-        <input id="namaInput" type="text" placeholder="Contoh: Yahya" />
+        <input id="namaInput" type="text" placeholder="Contoh: Yahya, Nabila, Kevin, Zulkifli" />
         <button onclick="cek()">Cek</button>
       </div>
 
       <div id="hasil" class="result hidden"></div>
 
       <div class="note">
-        Hasil ini adalah rekomendasi kecocokan nama, bukan penelusuran silsilah keluarga.
+        Hasil ini adalah rekomendasi kreatif berbasis bunyi, karakter, dan nuansa nama. Bukan data silsilah keluarga atau transliterasi resmi.
       </div>
     </div>
   </div>
@@ -147,12 +207,20 @@
 
       if (!nama) {
         hasil.classList.remove("hidden");
-        hasil.innerHTML = "<h2>Isi dulu namanya</h2><p>Masukkan nama kamu sebelum menekan tombol cek.</p>";
+        hasil.innerHTML = `
+          <div class="small-label">Input kosong</div>
+          <div class="main-name">Masukkan dulu namanya</div>
+          <div class="subline">Contoh: Yahya, Putri, Kevin, Haruto</div>
+        `;
         return;
       }
 
       hasil.classList.remove("hidden");
-      hasil.innerHTML = "<p>Sedang mencocokkan nama...</p>";
+      hasil.innerHTML = `
+        <div class="small-label">Memproses</div>
+        <div class="main-name">Sedang mencari nama yang cocok...</div>
+        <div class="subline">Membaca bunyi, irama, dan aura namamu</div>
+      `;
 
       try {
         const res = await fetch("/api/cek-marga?nama=" + encodeURIComponent(nama));
@@ -160,30 +228,54 @@
 
         if (!data.found) {
           hasil.innerHTML = `
-            <h2>Nama belum ditemukan</h2>
-            <p>Belum ada kecocokan nama China untuk <strong>${escapeHtml(nama)}</strong>.</p>
+            <div class="small-label">Tidak ditemukan</div>
+            <div class="main-name">Belum bisa memproses nama ini</div>
+            <div class="subline">Coba nama lain</div>
           `;
           return;
         }
 
+        const alternativesHtml = (data.alternatives || [])
+          .map((item) => `
+            <div class="alt-item">
+              <strong>${escapeHtml(item.full_name_pinyin)} (${escapeHtml(item.full_name_hanzi)})</strong><br>
+              <span>${escapeHtml(item.vibe)}</span>
+            </div>
+          `)
+          .join("");
+
         hasil.innerHTML = `
-          <h2>Hasil untuk ${escapeHtml(nama)}</h2>
-          <div class="label">Nama China yang cocok</div>
-          <div class="big">${escapeHtml(data.chinese_name)} (${escapeHtml(data.hanzi)})</div>
-          <p><strong>Alasan kecocokan:</strong> ${escapeHtml(data.reason)}</p>
-          <p><strong>Nuansa:</strong> ${escapeHtml(data.vibe)}</p>
+          <div class="small-label">Hasil untuk ${escapeHtml(data.query)}</div>
+          <div class="main-name">${escapeHtml(data.full_name_pinyin)} (${escapeHtml(data.full_name_hanzi)})</div>
+          <div class="subline">Marga: ${escapeHtml(data.surname_pinyin)} (${escapeHtml(data.surname_hanzi)}) • Vibe: ${escapeHtml(data.vibe)}</div>
+
+          <div class="section">
+            <div class="small-label">Deskripsi</div>
+            <p>${escapeHtml(data.description_long)}</p>
+          </div>
+
+          <div class="section">
+            <div class="small-label">Kesan aura</div>
+            <p>${escapeHtml(data.aura)}</p>
+          </div>
+
+          <div class="section">
+            <div class="small-label">Alternatif nama lain</div>
+            <div class="alt-list">${alternativesHtml}</div>
+          </div>
         `;
       } catch (err) {
         hasil.innerHTML = `
-          <h2>Terjadi error</h2>
-          <p>Gagal mengambil hasil. Coba lagi sebentar.</p>
+          <div class="small-label">Error</div>
+          <div class="main-name">Gagal mengambil hasil</div>
+          <div class="subline">Coba lagi sebentar</div>
         `;
         console.error(err);
       }
     }
 
     function escapeHtml(str) {
-      return str
+      return String(str)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
