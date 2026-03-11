@@ -42,9 +42,9 @@ export async function onRequestGet(context) {
     );
   }
 
-  const alternatives = ranked.slice(1, 3).map((item) => ({
-    full_name_pinyin: item.full_name_pinyin,
-    full_name_hanzi: item.full_name_hanzi,
+  const alternatives = ranked.slice(1, 4).map((item) => ({
+    surname_pinyin: item.surname_pinyin,
+    surname_hanzi: item.surname_hanzi,
     vibe: item.vibe
   }));
 
@@ -54,10 +54,6 @@ export async function onRequestGet(context) {
     analysis,
     surname_pinyin: best.surname_pinyin,
     surname_hanzi: best.surname_hanzi,
-    given_name_pinyin: best.given_name_pinyin,
-    given_name_hanzi: best.given_name_hanzi,
-    full_name_pinyin: best.full_name_pinyin,
-    full_name_hanzi: best.full_name_hanzi,
     vibe: best.vibe,
     aura: best.aura,
     description_long: best.description_long,
@@ -102,6 +98,8 @@ function analyzeName(rawNama) {
   } else if (/[hrtd]/.test(first)) {
     soundTag = "hard_clear";
   } else if (vowels >= 3) {
+    soundTag = "soft_flow";
+  } else if (/[mnlrwy]/.test(first)) {
     soundTag = "soft_flow";
   }
 
@@ -184,4 +182,4 @@ function countVowels(value) {
 function estimateSyllables(value) {
   const match = value.match(/[aiueo]+/g);
   return match ? match.length : 1;
-    }
+}
