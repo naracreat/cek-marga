@@ -1,48 +1,195 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cek Marga China</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cek Nama China</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f7fb;
+      color: #111827;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 36px;
+    }
+
+    p {
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    .form {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    input {
+      flex: 1;
+      padding: 14px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 12px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .result h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .label {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .big {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 640px) {
+      .form {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Cek Nama China</h1>
+      <p>
+        Masukkan nama kamu, lalu sistem akan mencocokkan nama Tionghoa yang paling pas berdasarkan bunyi dan nuansa nama.
+      </p>
 
-<h1>Cek Marga China</h1>
+      <div class="form">
+        <input id="namaInput" type="text" placeholder="Contoh: Yahya" />
+        <button onclick="cek()">Cek</button>
+      </div>
 
-<p>Masukkan nama keluarga kamu</p>
+      <div id="hasil" class="result hidden"></div>
 
-<input id="namaInput" placeholder="contoh: Tan">
+      <div class="note">
+        Hasil ini adalah rekomendasi kecocokan nama, bukan penelusuran silsilah keluarga.
+      </div>
+    </div>
+  </div>
 
-<button onclick="cek()">Cek</button>
+  <script>
+    async function cek() {
+      const input = document.getElementById("namaInput");
+      const hasil = document.getElementById("hasil");
+      const nama = input.value.trim();
 
-<div id="hasil"></div>
+      if (!nama) {
+        hasil.classList.remove("hidden");
+        hasil.innerHTML = "<h2>Isi dulu namanya</h2><p>Masukkan nama kamu sebelum menekan tombol cek.</p>";
+        return;
+      }
 
-<script>
+      hasil.classList.remove("hidden");
+      hasil.innerHTML = "<p>Sedang mencocokkan nama...</p>";
 
-async function cek(){
+      try {
+        const res = await fetch("/api/cek-marga?nama=" + encodeURIComponent(nama));
+        const data = await res.json();
 
-let nama = document.getElementById("namaInput").value
+        if (!data.found) {
+          hasil.innerHTML = `
+            <h2>Nama belum ditemukan</h2>
+            <p>Belum ada kecocokan nama China untuk <strong>${escapeHtml(nama)}</strong>.</p>
+          `;
+          return;
+        }
 
-let res = await fetch("/api/cek-marga?nama=" + nama)
+        hasil.innerHTML = `
+          <h2>Hasil untuk ${escapeHtml(nama)}</h2>
+          <div class="label">Nama China yang cocok</div>
+          <div class="big">${escapeHtml(data.chinese_name)} (${escapeHtml(data.hanzi)})</div>
+          <p><strong>Alasan kecocokan:</strong> ${escapeHtml(data.reason)}</p>
+          <p><strong>Nuansa:</strong> ${escapeHtml(data.vibe)}</p>
+        `;
+      } catch (err) {
+        hasil.innerHTML = `
+          <h2>Terjadi error</h2>
+          <p>Gagal mengambil hasil. Coba lagi sebentar.</p>
+        `;
+        console.error(err);
+      }
+    }
 
-let data = await res.json()
-
-if(data.found){
-
-document.getElementById("hasil").innerHTML =
-"Marga China: " + data.marga_hanzi + " " + data.marga_pinyin
-
-}else{
-
-document.getElementById("hasil").innerHTML =
-"Marga belum ditemukan"
-
-}
-
-}
-
-</script>
-
+    function escapeHtml(str) {
+      return str
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
 </body>
 </html>
